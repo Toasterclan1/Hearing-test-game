@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Hearing Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="start-screen">
+        <h1>Welcome to the Ultimate Hearing Game</h1>
+        <button onclick="startGame()">Start Game</button>
+        <button onclick="showInstructions()">Instructions</button>
+        <button onclick="exitGame()">Exit</button>
+    </div>
+
+    <div id="game-screen" style="display:none;">
+        <h2>Level: <span id="level">1</span></h2>
+        <p>Current Score: <span id="score">0</span></p>
+        <p id="frequency"></p>
+        <input type="text" id="response" placeholder="Type Y for Yes, N for No" />
+        <button onclick="submitResponse()">Submit</button>
+        <p id="game-message"></p>
+    </div>
+
+    <div id="instructions" style="display:none;">
+        <h2>Instructions</h2>
+        <ul>
+            <li>You'll hear various frequencies.</li>
+            <li>Type "Y" if you hear the beep, "N" if you do not.</li>
+            <li>Each level will get progressively harder.</li>
+            <li>Try to score as high as possible!</li>
+        </ul>
+        <button onclick="goBackToMenu()">Back to Menu</button>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
