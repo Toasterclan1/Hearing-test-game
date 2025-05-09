@@ -4,36 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultimate Hearing Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            display: inline-block;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <div id="start-screen">
-        <h1>Welcome to the Ultimate Hearing Game</h1>
-        <button onclick="startGame()">Start Game</button>
-        <button onclick="showInstructions()">Instructions</button>
-        <button onclick="exitGame()">Exit</button>
-    </div>
-
-    <div id="game-screen" style="display:none;">
+    <h1>Ultimate Hearing Game</h1>
+    <button class="button" id="startBtn">Start Game</button>
+    <div id="gameArea" style="display:none;">
         <h2>Level: <span id="level">1</span></h2>
-        <p>Current Score: <span id="score">0</span></p>
-        <p id="frequency"></p>
-        <input type="text" id="response" placeholder="Type Y for Yes, N for No" />
-        <button onclick="submitResponse()">Submit</button>
-        <p id="game-message"></p>
+        <h2>Score: <span id="score">0</span></h2>
+        <h2>Can you hear this frequency? <span id="frequency">5000</span> Hz</h2>
+        <input type="text" id="inputField" placeholder="Type Y or N" autofocus />
+        <button class="button" id="submitBtn">Submit</button>
     </div>
 
-    <div id="instructions" style="display:none;">
-        <h2>Instructions</h2>
-        <ul>
-            <li>You'll hear various frequencies.</li>
-            <li>Type "Y" if you hear the beep, "N" if you do not.</li>
-            <li>Each level will get progressively harder.</li>
-            <li>Try to score as high as possible!</li>
-        </ul>
-        <button onclick="goBackToMenu()">Back to Menu</button>
-    </div>
+    <script>
+        let score = 0;
+        let level = 1;
+        let maxLevel = 5;  // or set it to infinity
+        let gameRunning = false;
 
-    <script src="game.js"></script>
+        document.getElementById('startBtn').addEventListener('click', function() {
+            startGame();
+        });
+
+        function startGame() {
+            document.getElementById('gameArea').style.display = 'block';
+            document.getElementById('startBtn').style.display = 'none';
+            gameRunning = true;
+            nextLevel();
+        }
+
+        function nextLevel() {
+            if (!gameRunning) return;
+
+            // Update level
+            document.getElementById('level').textContent = level;
+            document.getElementById('score').textContent = score;
+
+            // Generate a random frequency
+            let frequency = Math.floor(Math.random() * (22000 - 12000) + 12000);
+            document.getElementById('frequency').textContent = frequency;
+
+            // Simulate a beep (Here we just display it for now, you can integrate audio)
+            console.log(`Beep at ${frequency} Hz`);
+
+            // Show the input field
+            document.getElementById('inputField').value = '';
+            document.getElementById('submitBtn').style.display = 'inline-block';
+
+            document.getElementById('submitBtn').addEventListener('click', function() {
+                checkInput(frequency);
+            });
+        }
+
+        function checkInput(frequency) {
+            let input = document.getElementById('inputField').value.toUpperCase();
+
+            if (input === 'Y') {
+                score++;
+                level++;
+                nextLevel();
+            } else if (input === 'N') {
+                endGame();
+            } else {
+                alert('Please enter "Y" or "N"');
+            }
+        }
+
+        function endGame() {
+            gameRunning = false;
+            alert(`Game Over! Your final score: ${score}`);
+        }
+    </script>
 </body>
 </html>
